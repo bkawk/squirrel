@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-login.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
+
+<dom-module id="my-login">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .loading{
+        @apply(--layout-vertical);
+        max-width: 414px;
+      }
+      .container img{
+        width: 230px;
+      }
+      poly-eth-login{
+        max-width: 230px;
+        @apply(--login-join-inputs)
+      }
+    </style>
+
+    <poly-eth></poly-eth>
+    <app-location route="{{route}}"></app-location>
+
+    <div class="container">
+        <div class="loading">
+            <img src="../assets/login.svg">
+
+            <poly-eth-login 
+              confirmed-password={{confirmedPassword}}>
+            </poly-eth-login>
+        </div>
+    </div>
+
+  </template>
+
+  <script>
+    class MyLogin extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+      static get is() { 
+        return 'my-login'; 
+        }
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            observer: '_setPassword',
+          },
+        };
+      }
+      static get actions() {
+          return Object.assign({
+            PASSWORD: function(password){
+                return { type: 'PASSWORD', password: password}
+            }
+        });
+      }
+
+      connectedCallback(){
+        super.connectedCallback();
+        var vault = localStorage.getItem("vault")
+        if(!vault){
+          this.set('route.path', 'join');
+        }
+      }
+    
+      _setPassword(){
+        console.log("fire")
+        this.dispatch('PASSWORD', this.confirmedPassword);
+        var passphrase = localStorage.getItem("passphrase")
+        if(passphrase){
+          this.set('route.path', 'balance'); 
+        } else {
+          this.set('route.path', 'warning'); 
+        }
+      }
+    
+    } window.customElements.define(MyLogin.is, MyLogin);
+  </script>
+</dom-module>

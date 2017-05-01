@@ -1,0 +1,42 @@
+{
+  "name": "Squirrel",
+  "lang": "en-US",
+  "short_name": "Squirrel",
+  "description": "Squirrel Ethereum Dapp",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#e48fa9",
+  "background_color": "#d71f53",
+  "orientation": "portrait",
+  "icons": [{
+      "src": "assets/manifest/icon-36x36.png",
+      "sizes": "36x36",
+      "type": "image/png",
+      "density": 0.75
+    },{
+      "src": "assets/manifest/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "density": 1.0
+    },{
+      "src": "assets/manifest/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "density": 1.5
+    },{
+      "src": "assets/manifest/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "density": 2.0
+    }, {
+      "src": "assets/manifest/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "density": 3.0
+    }, {
+      "src": "assets/manifest/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "density": 4.0
+    }]
+}

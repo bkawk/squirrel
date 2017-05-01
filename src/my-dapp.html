@@ -1,0 +1,123 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../bower_components/polymer-redux/polymer-redux.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="my-dapp">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        background-image: url("/assets/background.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout force-narrow>
+      <app-drawer id="drawer" slot="drawer">
+        <!-- Drawer content -->
+      </app-drawer>
+
+      <app-header-layout has-scrolling-region>
+        <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-loading name="loading"></my-loading>
+          <my-login name="login"></my-login>
+          <my-join name="join"></my-join>
+          <my-restore name="restore"></my-restore>
+          <my-warning name="warning"></my-warning>
+          <my-phrase name="phrase"></my-phrase>
+          <my-address name="address"></my-address>
+          <my-balance name="balance"></my-balance>
+          <my-send name="send"></my-send>
+          <my-confirm name="confirm"></my-confirm>
+          <my-delivered name="delivered"></my-delivered>
+          <my-transactions name="transactions"></my-transactions>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+    class MyApp extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
+    
+      static get is() { 
+        return 'my-dapp'; 
+      }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      static get actions() {
+          return Object.assign({
+            USER: function(user){
+                return { type: 'USER', user: user}
+            }
+        });
+      }
+
+      connectedCallback() {
+          super.connectedCallback();
+          this.loadResources(this.resolveUrl("../my-locales.json"));
+      }
+
+      _routePageChanged(page) {
+        if (page === undefined) {
+          return;
+        }
+        this.page = page || 'loading';
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      }
+
+      _pageChanged(page) {
+        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+        Polymer.importHref( resolvedPageUrl, null, this._showPage404.bind(this), true);
+      }
+
+      _showPage404() {
+        this.page = 'view404';
+      }
+    }
+
+    window.customElements.define(MyApp.is, MyApp);
+  </script>
+</dom-module>

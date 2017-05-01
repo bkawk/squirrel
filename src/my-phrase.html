@@ -1,0 +1,102 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-passphrase.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
+
+<dom-module id="my-phrase">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .qrcode{
+        @apply(--layout-vertical);
+        width: 270px;
+      }
+      .qrcode img{
+        width: 70px;
+        height: 70px;
+        margin: 0 auto;
+        padding-top: 20px;
+      }
+      .qrcode p{
+        text-align: center;
+        font-size: 12px;
+        color: var(--white-color);
+      }
+      poly-eth-passphrase{
+        margin: 0 auto;
+        max-width: 270px;
+        text-align: center;
+        @apply(--passphrase-text)
+      }
+      .button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        position: fixed;
+        bottom: 18px;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+
+    <div class="container">
+      <div class="qrcode">
+        <poly-eth-passphrase 
+          confirmed-password="{{confirmedPassword}}"
+          qr-width="200"
+          qr-height="200"
+          dark-color="black">
+        </poly-eth-passphrase>
+        <img src="../assets/icons/phrase.svg">
+        <p>This is your passphrase keep it safe and secure, only you have a copy!<p>
+      </div>
+      <a href="/balance/" class="button">
+        <img src="../assets/buttons/its-safe.svg">
+      </a>
+    </div>
+
+  </template>
+
+  <script>
+      class MyPhrase extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+
+      static get is() { 
+        return 'my-phrase'; 
+      }
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            statePath: 'password',
+            observer: '_password'
+          },
+        };
+      }
+    
+      connectedCallback(){
+        super.connectedCallback();
+        localStorage.setItem("passphrase", "You were last shown your passphrase on " + new Date().toLocaleString());
+        this._password();
+      }
+
+      _password(){
+        if(!this.confirmedPassword){
+          this.set('route.path', 'login');
+        }
+      }
+
+    } window.customElements.define(MyPhrase.is, MyPhrase);
+  </script>
+</dom-module>

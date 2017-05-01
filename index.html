@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="/node_modules/redux/dist/redux.min.js" async></script>
+    <meta charset="utf-8">
+    <meta name="generator" content="Squirrel Ethereum Dapp">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, shrink-to-fit=no">
+    <title>Squirrel</title>
+    <meta name="description" content="Squirrel Ethereum Dapp">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#e38ea7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Squirrel">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Squirrel">
+    <link rel="apple-touch-icon" href="/assets/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/assets/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/manifest/icon-192x192.png">
+    <meta name="msapplication-TileImage" content="/assets/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#d72053">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="twitter:card" value="summary">
+    <meta property="og:title" content="Squirrel Ethereum Dapp" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://www.bkawk.com/" />
+    <meta property="og:image" content="http://bkawk.com/assets/social.jpg" />
+    <meta property="og:description" content="Squirrel Ethereum Dapp" />
+    <noscript>Welcome to Squirrel, please enable JavaScript.</noscript>
+    
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+
+    <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="/src/my-dapp.html">
+
+    <style>
+
+      body {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+        letter-spacing: 0;
+        font-weight: 400;
+        font-style: normal;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -moz-font-feature-settings: "liga" on;
+        color: rgba(0,0,0,.8);
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0;
+        min-height: 100vh;
+        background-color: #7f1c51;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <my-dapp></my-dapp>
+  </body>
+</html>

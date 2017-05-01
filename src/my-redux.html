@@ -1,0 +1,25 @@
+<script>
+    let initialState = {
+        language: 'English'
+    };
+
+    let reducer = function(state, action){
+        if(!state){ 
+            return initialState
+        };
+        switch(action.type){
+            case 'PASSWORD':
+                let password = state.password;
+                password  = action.password;
+                return Object.assign({}, state, {password: password})
+            case 'LANGUAGE':
+                let language = state.language;
+                language  = action.language;
+                return Object.assign({}, state, {language: language})
+        }
+    }
+    const store = Redux.createStore(reducer, /* preloadedState, */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+    const ReduxMixin = PolymerRedux(store);
+</script>

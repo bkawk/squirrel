@@ -1,0 +1,67 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-warning">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .warning{
+        @apply(--layout-vertical);
+        max-width: 414px;
+      }
+      .warning p {
+        @apply(--info-box);
+      }
+      .warning :nth-child(2){
+        color: var(--light-pink-color)
+      }
+      .button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        position: fixed;
+        bottom: 0px;
+      }
+      .warning img{
+        width: 165px;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+
+    </style>
+
+    <div class="container">
+        <div class="warning">
+            <img src="../assets/skull.svg">
+            <p>Your backup phrase will be displayed on the next page, ensure you are in private.</p>
+            <p>Anyone who knows your backup phrase has full access to your account!</p>
+        </div>
+        <a href="/phrase/" class="button">
+          <img src="../assets/buttons/got-it.svg" >
+        </a>
+    </div>
+
+  </template>
+
+  <script>
+    class MyWarning extends Polymer.Element {
+      static get is() { 
+        return 'my-warning'; 
+      }
+
+
+
+    } window.customElements.define(MyWarning.is, MyWarning);
+  </script>
+</dom-module>

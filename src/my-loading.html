@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
+<dom-module id="my-loading">
+<template>
+    <style include="shared-styles">
+    :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+    }
+    .version{
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        font-size: 12px;
+        color: var(--neon-pink-color)
+    }
+    .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+    }
+    .loading{
+        @apply(--layout-vertical);
+        max-width: 414px;
+    }
+    .container img{
+        width: 230px;
+        height: 500px;
+        padding-top: 50px;
+        padding-bottom: 100px;
+    }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+
+    <div class="version">
+        v1.01
+    </div>
+
+    <div class="container">
+        <div class="loading">
+            <img src="../assets/loading.svg">
+        </div>
+    </div>
+
+</template>
+
+<script>
+    class MyLoading extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+
+    static get is() { 
+        return 'my-loading'; 
+    }
+
+    ready(){
+        super.ready();
+        if (typeof(Storage) !== "undefined") {
+            var vault = localStorage.getItem("vault")
+            var passphrase = localStorage.getItem("passphrase")
+            if(vault && passphrase){
+                this.set('route.path', '/balance/');
+            }
+            else if(vault && !passphrase){
+                this.set('route.path', '/warning/');
+            }
+            else {
+                this.set('route.path', '/join/');
+            }
+        } else {
+            console.error(Error('Browser is too old to work with'))
+        }
+    }
+
+    }    window.customElements.define(MyLoading.is, MyLoading);
+</script>
+</dom-module>

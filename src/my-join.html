@@ -1,0 +1,101 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-join.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
+
+<dom-module id="my-join">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .loading{
+        @apply(--layout-vertical);
+        max-width: 414px;
+      }
+      .container img{
+        width: 230px;
+      }
+      poly-eth-join{
+        max-width: 230px;
+        @apply(--login-join-inputs)
+      }
+      .restore, .restore img{
+        width: 30px;
+        height: 30px;
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        padding: 18px;
+        cursor: pointer;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+
+    <div class="restore" on-tap="_restore">
+      <img src="../assets/icons/restore.svg">
+    </div>
+    <div class="container">
+        <div class="loading">
+            <img src="../assets/login.svg">
+            <poly-eth-join
+              confirmed-password="{{confirmedPassword}}">
+            </poly-eth-join>
+        </div>
+    </div>
+
+  </template>
+
+  <script>
+    class MyJoin extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+      static get is() { 
+        return 'my-join'; 
+      }
+
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            observer: '_setPassword',
+          },
+        };
+      }
+      static get actions() {
+          return Object.assign({
+            PASSWORD: function(password){
+                return { type: 'PASSWORD', password: password}
+            }
+        });
+      }
+
+      connectedCallback(){
+        super.connectedCallback();
+        var vault = localStorage.getItem("vault")
+        if(vault){
+          this.set('route.path', 'login');
+        }
+      }
+      
+      _restore(){
+        this.set('route.path', 'restore');
+      }
+
+      _setPassword(){
+        this.dispatch('PASSWORD', this.confirmedPassword);
+        this.set('route.path', 'warning'); 
+      }
+
+    }    window.customElements.define(MyJoin.is, MyJoin);
+  </script>
+</dom-module>
