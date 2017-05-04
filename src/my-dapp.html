@@ -3,11 +3,11 @@
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
-<link rel="import" href="../bower_components/polymer-redux/polymer-redux.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
 <link rel="import" href="shared-styles.html">
 <dom-module id="my-dapp">
   <template>
@@ -63,7 +63,7 @@
   </template>
 
   <script>
-    class MyApp extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
+      class MyDapp extends Polymer.Element {
     
       static get is() { 
         return 'my-dapp'; 
@@ -93,10 +93,6 @@
         });
       }
 
-      connectedCallback() {
-          super.connectedCallback();
-          this.loadResources(this.resolveUrl("../my-locales.json"));
-      }
 
       _routePageChanged(page) {
         if (page === undefined) {
@@ -118,6 +114,6 @@
       }
     }
 
-    window.customElements.define(MyApp.is, MyApp);
+    window.customElements.define(MyDapp.is, MyDapp);
   </script>
 </dom-module>

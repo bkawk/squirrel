@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/poly-eth/poly-eth-login.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="my-redux.html">
@@ -24,20 +25,46 @@
         max-width: 414px;
       }
       .container img{
-        width: 230px;
+        width: 200px;
       }
       poly-eth-login{
-        max-width: 230px;
+        max-width: 200px;
         @apply(--login-join-inputs)
       }
+      .restore, .restore img{
+        width: 30px;
+        height: 30px;
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        padding: 18px;
+        cursor: pointer;
+      }
+      .show-qr{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        padding-left: 18px;
+        padding-bottom: 15px;
+        cursor: pointer;
+      }
+
     </style>
 
-    <poly-eth></poly-eth>
     <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <div class="restore" on-click="_restore">
+      <img src="/assets/icons/restore.svg">
+    </div>
 
     <div class="container">
         <div class="loading">
-            <img src="../assets/login.svg">
+            <img src="/assets/login.svg">
 
             <poly-eth-login 
               confirmed-password={{confirmedPassword}}>
@@ -45,10 +72,14 @@
         </div>
     </div>
 
+    <div on-click="_show" class="show-qr">
+      <img src="/assets/icons/show-qr.svg">
+    </div>
+
   </template>
 
   <script>
-    class MyLogin extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+    class MyLogin extends ReduxMixin(Polymer.Element) {
       static get is() { 
         return 'my-login'; 
         }
@@ -74,17 +105,28 @@
         if(!vault){
           this.set('route.path', 'join');
         }
+        console.log(this.subroute.path)
       }
     
       _setPassword(){
-        console.log("fire")
         this.dispatch('PASSWORD', this.confirmedPassword);
         var passphrase = localStorage.getItem("passphrase")
-        if(passphrase){
-          this.set('route.path', 'balance'); 
+        if(this.subroute.path == "/warning/"){
+          this.set('route.path', '/warning/'); 
         } else {
-          this.set('route.path', 'warning'); 
+            if(passphrase){
+              this.set('route.path', 'balance'); 
+            } else {
+              this.set('route.path', 'warning'); 
+            }
         }
+      }
+
+      _show(){
+        this.set('route.path', 'address');
+      }
+      _restore(){
+        this.set('route.path', 'restore');
       }
     
     } window.customElements.define(MyLogin.is, MyLogin);

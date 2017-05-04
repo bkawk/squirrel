@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="my-redux.html">
+
 <dom-module id="my-loading">
 <template>
     <style include="shared-styles">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    class MyLoading extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+    class MyLoading extends Polymer.Element {
 
     static get is() { 
         return 'my-loading'; 

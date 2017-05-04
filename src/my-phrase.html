@@ -21,23 +21,18 @@
       }
       .qrcode{
         @apply(--layout-vertical);
-        width: 270px;
+        width: 200px;
+        padding-bottom: 50px;
       }
       .qrcode img{
-        width: 70px;
-        height: 70px;
         margin: 0 auto;
         padding-top: 20px;
       }
-      .qrcode p{
-        text-align: center;
-        font-size: 12px;
-        color: var(--white-color);
-      }
       poly-eth-passphrase{
         margin: 0 auto;
-        max-width: 270px;
+        max-width: 200px;
         text-align: center;
+        padding-bottom: 10px;
         @apply(--passphrase-text)
       }
       .button {
@@ -50,7 +45,6 @@
     </style>
 
     <app-location route="{{route}}"></app-location>
-
     <div class="container">
       <div class="qrcode">
         <poly-eth-passphrase 
@@ -59,18 +53,17 @@
           qr-height="200"
           dark-color="black">
         </poly-eth-passphrase>
-        <img src="../assets/icons/phrase.svg">
-        <p>This is your passphrase keep it safe and secure, only you have a copy!<p>
       </div>
       <a href="/balance/" class="button">
-        <img src="../assets/buttons/its-safe.svg">
+        <img src="/assets/buttons/its-safe.svg">
       </a>
+
     </div>
 
   </template>
 
   <script>
-      class MyPhrase extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+      class MyPhrase extends ReduxMixin(Polymer.Element) {
 
       static get is() { 
         return 'my-phrase'; 

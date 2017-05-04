@@ -19,15 +19,15 @@
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
       }
-      .loading{
+      .join{
         @apply(--layout-vertical);
         max-width: 414px;
       }
       .container img{
-        width: 230px;
+        width: 200px;
       }
       poly-eth-join{
-        max-width: 230px;
+        max-width: 200px;
         @apply(--login-join-inputs)
       }
       .restore, .restore img{
@@ -47,7 +47,7 @@
       <img src="../assets/icons/restore.svg">
     </div>
     <div class="container">
-        <div class="loading">
+        <div class="join">
             <img src="../assets/login.svg">
             <poly-eth-join
               confirmed-password="{{confirmedPassword}}">
@@ -58,7 +58,7 @@
   </template>
 
   <script>
-    class MyJoin extends ReduxMixin(Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element)) {
+    class MyJoin extends ReduxMixin(Polymer.Element) {
       static get is() { 
         return 'my-join'; 
       }
@@ -86,7 +86,7 @@
           this.set('route.path', 'login');
         }
       }
-      
+
       _restore(){
         this.set('route.path', 'restore');
       }

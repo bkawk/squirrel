@@ -9,21 +9,48 @@
 
         padding: 10px;
       }
+      .warning{
+        display: block;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .warning img{
+        height: 20px;
+      }
+      .lock{
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .lock img{
+        height: 20px;
+      }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <a href="/warning/" class="warning">
+      <img src="../assets/icons/mini-eye.svg">
+    </a>
+    <div class="lock" on-click="_lock">
+      <img src="../assets/icons/mini-lock.svg">
     </div>
+
   </template>
 
   <script>
     class MyBalance extends Polymer.Element {
       static get is() { return 'my-balance'; }
-    }
+    
 
-    window.customElements.define(MyBalance.is, MyBalance);
+    } window.customElements.define(MyBalance.is, MyBalance);
   </script>
 </dom-module>
