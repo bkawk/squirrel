@@ -20,7 +20,7 @@
       }
       .address{
         @apply(--layout-vertical);
-        width: 200px;
+        width: 320px;
         padding-bottom: 50px;
       }
       .address img{
@@ -29,17 +29,36 @@
       }
       poly-eth-address{
         margin: 0 auto;
-        max-width: 200px;
+        max-width: 320px;
         text-align: center;
         padding-bottom: 10px;
         @apply(--passphrase-text)
       }
+      .back{
+        display: block;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .back img{
+        height: 20px;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
+
+    <a href="/login/" class="back">
+      <img src="../assets/icons/mini-back.svg">
+    </a>
+
     <div class="container">
       <div class="address">
         <poly-eth-address 
+          confirmed-password="{{confirmedPassword}}"
           qr-width="200"
           qr-height="200"
           dark-color="black">
@@ -53,8 +72,14 @@
   <script>
     class MyAddress extends Polymer.Element {
       static get is() { return 'my-address'; }
-    }
+    
 
-    window.customElements.define(MyAddress.is, MyAddress);
+      connectedCallback(){
+        super.connectedCallback();
+        this.confirmedPassword = JSON.parse(localStorage.getItem("vault")).ethAddress;
+      }
+
+    
+    } window.customElements.define(MyAddress.is, MyAddress);
   </script>
 </dom-module>
