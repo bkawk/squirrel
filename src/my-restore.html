@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-restore.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-restore">
@@ -6,17 +7,48 @@
     <style include="shared-styles">
       :host {
         display: block;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
 
-        padding: 10px;
+      .back{
+        display: block;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        padding: 18px;
+        width: 10px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .back img{
+        height: 20px;
+      }
+      .restore{
+        @apply(--layout-vertical);
+        width: 320px;
+        padding-bottom: 50px;
       }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <a href="/login/" class="back">
+      <img src="../assets/icons/mini-back.svg">
+    </a>
+
+    <div class="container">
+      <div class="restore">
+        <poly-eth-restore>
+        </poly-eth-restore >
+      </div>
     </div>
+
   </template>
 
   <script>
