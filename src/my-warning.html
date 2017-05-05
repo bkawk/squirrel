@@ -80,7 +80,6 @@
 
       connectedCallback(){
         super.connectedCallback();
-        console.log(this.confirmedPassword)
         if(!this.confirmedPassword){
           this.set('route.path', 'login/warning/');
         }
