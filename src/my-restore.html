@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/poly-eth/poly-eth-restore.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
 
 <dom-module id="my-restore">
   <template>
@@ -42,13 +44,16 @@
       }
     </style>
 
+    <app-location route="{{route}}"></app-location>
+
     <a href="/login/" class="back">
       <img src="../assets/icons/mini-back.svg">
     </a>
 
     <div class="container">
       <div class="restore">
-        <poly-eth-restore>
+        <poly-eth-restore
+          confirmed-password="{{confirmedPassword}}">
         </poly-eth-restore >
       </div>
     </div>
@@ -56,10 +61,31 @@
   </template>
 
   <script>
-    class MyRestore extends Polymer.Element {
+    class MyRestore extends ReduxMixin(Polymer.Element) {
       static get is() { return 'my-restore'; }
-    }
+    
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            observer: '_setPassword',
+          },
+        };
+      }
 
-    window.customElements.define(MyRestore.is, MyRestore);
+      static get actions() {
+          return Object.assign({
+            PASSWORD: function(password){
+                return { type: 'PASSWORD', password: password}
+            }
+        });
+      }
+
+      _setPassword(){
+        this.dispatch('PASSWORD', this.confirmedPassword);
+        this.set('route.path', 'warning'); 
+      }
+    
+    } window.customElements.define(MyRestore.is, MyRestore);
   </script>
 </dom-module>
