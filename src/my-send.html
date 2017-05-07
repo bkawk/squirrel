@@ -1,29 +1,60 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-send.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
 
 <dom-module id="my-send">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
-
-        padding: 10px;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .back{
+        display: block;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        padding: 18px;
+        width: 10px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .back img{
+        height: 20px;
       }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-    </div>
+    <a href="/balance/" class="back">
+      <img src="../assets/icons/mini-back.svg">
+    </a>
+
+  <poly-eth-send
+    confirmed-password="{{confirmedPassword}}">
+  </poly-eth-send>
   </template>
 
   <script>
-    class MySend extends Polymer.Element {
+    class MySend extends ReduxMixin(Polymer.Element) {
       static get is() { return 'my-send'; }
-    }
 
-    window.customElements.define(MySend.is, MySend);
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            statePath: 'password'
+          },
+        };
+      }
+
+  } window.customElements.define(MySend.is, MySend);
   </script>
 </dom-module>

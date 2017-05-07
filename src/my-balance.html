@@ -1,13 +1,23 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/poly-eth/poly-eth-balance.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="my-redux.html">
 
 <dom-module id="my-balance">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
-
-        padding: 10px;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .container{
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
       }
       .warning{
         display: block;
@@ -20,6 +30,19 @@
         cursor: pointer;
       }
       .warning img{
+        height: 20px;
+      }
+      .send{
+        display: block;
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .send img{
         height: 20px;
       }
       .lock{
@@ -35,21 +58,87 @@
       .lock img{
         height: 20px;
       }
+      poly-eth-balance{
+        @apply(--poly-eth-balance)
+      }
     </style>
+
+    <app-location route="{{route}}"></app-location>
 
     <a href="/warning/" class="warning">
       <img src="../assets/icons/mini-eye.svg">
     </a>
+
+    <a href="/send/" class="send">
+      <img src="../assets/icons/mini-send.svg">
+    </a>
+    
     <div class="lock" on-click="_lock">
-      <img src="../assets/icons/mini-lock.svg">
+      
+      <template is="dom-if" if="{{open}}">
+        <img src="../assets/icons/mini-lock-open.svg">
+      </template>
+      <template is="dom-if" if="{{!open}}">
+        <img src="../assets/icons/mini-lock-close.svg">
+      </template>
     </div>
+    
+    <div class="container">
+        <poly-eth-balance 
+          address="[[address]]" 
+          currency-code="USD" 
+          show>
+        </poly-eth-balance>
+     </div>
 
   </template>
 
   <script>
-    class MyBalance extends Polymer.Element {
+    class MyBalance extends ReduxMixin(Polymer.Element) {
       static get is() { return 'my-balance'; }
-    
+
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+            statePath: 'password',
+            observer: '_open'
+          },
+          open:{
+            type: Boolean,
+            value: false
+          }
+        };
+      }
+
+      static get actions() {
+          return Object.assign({
+            PASSWORD: function(password){
+                return { type: 'PASSWORD', password: password}
+            }
+        });
+      }
+
+      connectedCallback(){
+        super.connectedCallback();
+        this.address = JSON.parse(localStorage.getItem("vault")).ethAddress;
+        this._open()
+    }
+      _open(){
+        if(this.confirmedPassword){
+          this.open = true;
+        } else {
+          this.open = false;
+        }
+      }
+      _lock(){
+        if(this.confirmedPassword){
+          this.dispatch('PASSWORD', "");
+          this.open = false;
+        } else {
+          this.set('route.path', 'login'); 
+        }
+      }
 
     } window.customElements.define(MyBalance.is, MyBalance);
   </script>

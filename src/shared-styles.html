@@ -4,6 +4,7 @@
   <template>
     <style>
     :host {
+      --black-color: #000;
       --neon-pink-color: #da2053;
       --dark-pink-color: #e35d84;
       --light-pink-color: #ff9fbb;
@@ -25,6 +26,21 @@
       --passphrase-text:{
         --poly-eth-passphrase-size: 17px;
         --poly-eth-passphrase-color: var(--light-pink-color);
+      }
+
+      --poly-eth-balance:{
+        --poly-eth-ether-value-size: 64px;
+        --poly-eth-ether-value-weight: 900;
+        --poly-eth-ether-value-color: var(--light-pink-color);
+        --poly-eth-ether-code-size: 32px;
+        --poly-eth-ether-code-weight: 900;
+        --poly-eth-ether-code-color: var(--dark-pink-color);
+        --poly-eth-fiat-value-size: 12px;
+        --poly-eth-fiat-value-weight: 900;
+        --poly-eth-fiat-value-color: var(--black-color);
+        --poly-eth-fiat-code-size: 8px;
+        --poly-eth-fiat-code-weight: 900;
+        --poly-eth-fiat-code-color: var(--black-color);
       }
       
       --info-box:{

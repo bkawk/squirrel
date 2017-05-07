@@ -65,7 +65,8 @@
     <div class="container">
         <div class="loading">
             <img src="/assets/login.svg">
-            <poly-eth-login 
+            <poly-eth-login
+              id="login" 
               confirmed-password={{confirmedPassword}}>
             </poly-eth-login>
         </div>
@@ -109,6 +110,7 @@
     
       _setPassword(){
         this.dispatch('PASSWORD', this.confirmedPassword);
+        this.$.login.clear();
         var passphrase = localStorage.getItem("passphrase")
         if(this.subroute.path == "/warning/"){
           this.set('route.path', '/warning/'); 
