@@ -31,10 +31,31 @@
       .back img{
         height: 20px;
       }
+      .scan{
+        display: block;
+        position: fixed;
+        top: 0px;
+        right: 18px;
+        padding: 18px;
+        width: 19px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .scan img{
+        height: 22px;
+      }
+      poly-eth-send{
+        max-width: 200px;
+        @apply(--login-join-inputs)
+      }
     </style>
 
     <a href="/balance/" class="back">
       <img src="../assets/icons/mini-back.svg">
+    </a>
+
+    <a href="/scan/" class="scan">
+      <img src="../assets/icons/mini-scan.svg">
     </a>
 
   <poly-eth-send

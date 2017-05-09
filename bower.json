@@ -18,7 +18,8 @@
     "polymer": "Polymer/polymer#^2.0.0-rc.1",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.4",
     "paper-input": "2.0-preview",
-    "poly-eth": "https://github.com/bkawk/poly-eth.git"
+    "poly-eth": "https://github.com/bkawk/poly-eth.git",
+    "qrcode-scanner": "https://github.com/bkawk/qrcode-scanner.git"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.1"

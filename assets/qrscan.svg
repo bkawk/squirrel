@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="414px" height="736px" viewBox="0 0 414 736" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>iPhone 7 Plus</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,0 L414,0 L414,736 L0,736 L0,0 Z M32,193 L32,543 L382,543 L382,193 L32,193 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-7-Plus">
+            <g id="Combined-Shape">
+                <use fill-opacity="0.5" fill="#000000" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <path stroke="#979797" stroke-width="1" d="M0.5,0.5 L413.5,0.5 L413.5,735.5 L0.5,735.5 L0.5,0.5 Z M31.5,193 L31.5,543 L31.5,543.5 L32,543.5 L382,543.5 L382.5,543.5 L382.5,543 L382.5,193 L382.5,192.5 L382,192.5 L32,192.5 L31.5,192.5 L31.5,193 Z"></path>
+            </g>
+            <text id="Align-the-QR-code-wi" font-family="HelveticaNeue, Helvetica Neue" font-size="17" font-weight="normal" line-spacing="21" letter-spacing="0.219999999" fill="#FFFFFF">
+                <tspan x="48" y="577">Align the QR code with the frame to sca</tspan>
+                <tspan x="359.486" y="577" letter-spacing="4.21999979">n</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
