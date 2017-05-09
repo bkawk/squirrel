@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/qrcode-scanner/qrcode-scanner.html">
 <link rel="import" href="shared-styles.html">
 
@@ -7,19 +9,52 @@
     <style include="shared-styles">
     :host {
         display: block;
-
         padding: 10px;
     }
     </style>
 
-    <qrcode-scanner></qrcode-scanner>
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+    
+    <audio id="audio" src="/assets/sounds/beep.mp3" preload="auto"></audio>
+    <qrcode-scanner data="{{data}}" id="scanner"></qrcode-scanner>
 </template>
 
 <script>
     class MyScan extends Polymer.Element {
     static get is() { return 'my-scan'; }
+
+    static get properties() {
+        return {
+            data: {
+                type: String,
+                observer: "_play"
+            },
+            route: {
+                type: String,
+                observer: "_route"
+            }
+        
+        };
+        }
+    _route(){
+        if(this.routeData.page == undefined || this.routeData.page == 'scan' ){
+            this.$.scanner.openCamera()
+        } else {
+            this.$.scanner.disconnect()
+        }
+    }
+    _play(){
+        this.$.audio.play();
+            if(this.subroute.path == "/send/"){
+            this.set('route.path', '/send/'+ this.data); 
+        } 
     }
 
-    window.customElements.define(MyScan.is, MyScan);
+} window.customElements.define(MyScan.is, MyScan);
 </script>
 </dom-module>

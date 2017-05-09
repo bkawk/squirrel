@@ -11,6 +11,7 @@
     "src/my-address.html",
     "src/my-balance.html",
     "src/my-send.html",
+    "src/my-scan.html",
     "src/my-confirm.html",
     "src/my-delivered.html",
     "src/my-transactions.html",
@@ -24,6 +25,8 @@
   "extraDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/*.js",
+    "bower_components/qrcode-scanner/jsqrcode.min.js",
+    "bower_components/qrcode-scanner/qrscan.svg",
     "node_modules/redux/dist/redux.min.js"
   ],
   "lint": {
