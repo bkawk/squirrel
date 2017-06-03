@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/poly-eth/poly-eth-balance.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="my-redux.html">
 
@@ -32,19 +33,6 @@
       .warning img{
         height: 20px;
       }
-      .send{
-        display: block;
-        position: fixed;
-        top: 0px;
-        right: 0px;
-        padding: 18px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-      }
-      .send img{
-        height: 20px;
-      }
       .lock{
         display: block;
         position: fixed;
@@ -58,32 +46,33 @@
       .lock img{
         height: 20px;
       }
+      .contacts{
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .contacts img{
+        height: 20px;
+      }
       poly-eth-balance{
         @apply(--poly-eth-balance)
       }
     </style>
 
     <app-location route="{{route}}"></app-location>
-
-    <a href="/warning/" class="warning">
-      <img src="../assets/icons/mini-eye.svg">
-    </a>
-
-    <a href="/send/" class="send">
-      <img src="../assets/icons/mini-send.svg">
-    </a>
-    
-    <div class="lock" on-click="_lock">
-      
-      <template is="dom-if" if="{{open}}">
-        <img src="../assets/icons/mini-lock-open.svg">
-      </template>
-      <template is="dom-if" if="{{!open}}">
-        <img src="../assets/icons/mini-lock-close.svg">
-      </template>
-    </div>
+    <app-route
+        route="{{route}}"
+        pattern=":page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
     
     <div class="container">
+      {{routeData.name}}{{routeData.number}}
         <poly-eth-balance 
           address="[[address]]" 
           currency-code="USD" 
@@ -99,11 +88,6 @@
 
       static get properties() {
         return {
-          confirmedPassword: {
-            type: String,
-            statePath: 'password',
-            observer: '_open'
-          },
           open:{
             type: Boolean,
             value: false
@@ -111,34 +95,17 @@
         };
       }
 
-      static get actions() {
-          return Object.assign({
-            PASSWORD: function(password){
-                return { type: 'PASSWORD', password: password}
-            }
-        });
-      }
-
-      connectedCallback(){
+    connectedCallback(){
         super.connectedCallback();
         this.address = JSON.parse(localStorage.getItem("vault")).ethAddress;
-        this._open()
     }
-      _open(){
-        if(this.confirmedPassword){
-          this.open = true;
-        } else {
-          this.open = false;
-        }
-      }
-      _lock(){
-        if(this.confirmedPassword){
-          this.dispatch('PASSWORD', "");
-          this.open = false;
-        } else {
-          this.set('route.path', 'login'); 
-        }
-      }
+    _testFire(){
+      this.dispatchEvent(new CustomEvent('toggle-drawer', {
+        bubbles: true,
+        composed: true
+      }));
+    }
+
 
     } window.customElements.define(MyBalance.is, MyBalance);
   </script>

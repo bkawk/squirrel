@@ -9,23 +9,27 @@
       --dark-pink-color: #e35d84;
       --light-pink-color: #ff9fbb;
       --white-color: #fff;
+      --light-grey-color: #B3B3B3;
+      --dark-grey-color: #4D4D4D;
+
+
 
       --login-join-inputs: {
         --poly-eth-error-size: 11px;
-        --poly-eth-error-color: var(--light-pink-color);
+        --poly-eth-error-color: var(--white-color);
         --poly-eth-font-size: 16px;
         --poly-eth-password-font-size: 38px;
-        --poly-eth-color: var(--light-pink-color);
-        --poly-eth-input-color: var(--light-pink-color);
+        --poly-eth-color: var(--white-color);
+        --poly-eth-input-color: var(--white-color);
         --poly-eth-focus-color: var(--white-color);
         --poly-eth-undrline-thickness: 1px;
-        --poly-eth-undrline-color: var(--neon-pink-color);
-        --poly-eth-undrline-focus-color: var(--neon-pink-color);
+        --poly-eth-undrline-color: var(--light-grey-color);
+        --poly-eth-undrline-focus-color: var(--white-color);
       }
       
       --passphrase-text:{
         --poly-eth-passphrase-size: 17px;
-        --poly-eth-passphrase-color: var(--light-pink-color);
+        --poly-eth-passphrase-color: var(--white-color);
       }
 
       --poly-eth-balance:{
@@ -43,7 +47,7 @@
         --poly-eth-fiat-code-color: var(--black-color);
       }
       
-      --info-box:{
+    --info-box:{
         text-align: center;
         padding: 0 50px 0 50px;
         margin-bottom: 0px;
@@ -51,7 +55,50 @@
         color: var(--white-color)
       }
     }
+    .title{
+      padding:18px;
+      width:calc(100% -18px);
+      font-size:26px;
+      font-weight:700;
+      color:var(--white-color)
+    }
 
+    .spacer{
+      width:calc(100% -18px);
+      @apply(--layout-flex);
+    }
+
+    .button{
+      cursor:pointer;
+      font-size:16px;
+      margin:18px;
+      padding-top:20px;
+      padding-bottom:20px;
+      width:calc(100% -18px);
+      text-align:center;
+      color:var(--white-color);
+      background-color:var(--dark-grey-color);
+      font-weight:600
+    }
+
+    .link{
+      padding:18px 18px 28px;
+      width:100%;
+      font-size:11px;
+      color:var(--white-color);
+      font-weight:400;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .link span{
+      cursor:pointer;
+      padding:8px;
+      background-color:var(--light-grey-color);
+      color:var(--black-color);
+      margin-right:10px;
+      font-weight:300
+    }
 
     </style>
   </template>

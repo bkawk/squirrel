@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-confirm">
@@ -6,24 +8,54 @@
     <style include="shared-styles">
       :host {
         display: block;
-
-        padding: 10px;
+        padding: 0px;
+        height: 100vh;
+        @apply(--layout-vertical);
       }
+      .container{
+        text-align: center;
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
+      }
+
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <app-location route="{{route}}"></app-location>
+    <div class="spacer"></div>
+    <div class="container">
+        <p>TO: {{address}}</p>
+        <p>SENDING: {{amount}}ETH</p>
+        <p>GAS: {{gas}}</p>
+        <p>TOTAL: {{total}}</p>
+        <p>REMAINING: 0.000234234</p>
     </div>
+    <app-route
+        route="{{route}}"
+        pattern="/confirm/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+
+    <div class="spacer"></div>
+    <div class="button" on-click="_send">Confirm & Send</div> 
+    <a href="squirrel://scan/send/" class="link">
+      <span>Back</span> adjust the amount.
+    </a>
   </template>
 
   <script>
     class MyConfirm extends Polymer.Element {
       static get is() { return 'my-confirm'; }
-    }
-
-    window.customElements.define(MyConfirm.is, MyConfirm);
+    
+      ready() {
+        super.ready();
+        this.address = this.routeData.page
+        this.amount = this.subroute.path.replace(/\//g, '')*1;
+        this.gas = 0.0000021
+        this.total = this.amount + this.gas
+      }
+    
+    } window.customElements.define(MyConfirm.is, MyConfirm);
   </script>
 </dom-module>

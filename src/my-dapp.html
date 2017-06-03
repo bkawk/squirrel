@@ -7,8 +7,27 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
-
+<link rel="import" href="components/side-menu.html">
+<link rel="import" href="my-redux.html">
 <link rel="import" href="shared-styles.html">
+
+<link rel="lazy-import" href="my-loading.html">
+<link rel="lazy-import" href="my-login.html">
+<link rel="lazy-import" href="my-join.html">
+<link rel="lazy-import" href="my-restore.html">
+<link rel="lazy-import" href="my-warning.html">
+<link rel="lazy-import" href="my-phrase.html">
+<link rel="lazy-import" href="my-address.html">
+<link rel="lazy-import" href="my-send.html">
+<link rel="lazy-import" href="my-balance.html">
+<link rel="lazy-import" href="my-send.html">
+<link rel="lazy-import" href="my-scan.html">
+<link rel="lazy-import" href="my-contacts.html">
+<link rel="lazy-import" href="my-confirm.html">
+<link rel="lazy-import" href="my-delivered.html">
+<link rel="lazy-import" href="my-transactions.html">
+<link rel="lazy-import" href="my-view404.html">
+
 <dom-module id="my-dapp">
   <template>
     <style include="shared-styles">
@@ -16,15 +35,38 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        background-image: url("/assets/background.svg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
+        background-color: #666666;
       }
-      app-drawer-layout:not([narrow]) [drawer-toggle] {
-        display: none;
+      #drawer{
+        --app-drawer-scrim-background: rgba(0, 0, 0, 0.3);
+      }
+      .menu{
+        display: block;
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        padding: 18px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        z-index: 100;
+      }
+      .menu img{
+        height: 20px;
+        z-index: 200;
       }
     </style>
+
+    <div class="menu" on-click="_toggleDraw">
+      
+      <template is="dom-if" if="{{!drawOpen}}">
+        <img src="/assets/icons/menu.svg">
+      </template>
+      <template is="dom-if" if="{{drawOpen}}">
+        <img src="/assets/icons/close.svg">
+      </template>
+    </div>
+
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -34,10 +76,10 @@
         tail="{{subroute}}"></app-route>
 
     <app-drawer-layout force-narrow>
-      <app-drawer id="drawer" slot="drawer">
-        <!-- Drawer content -->
+      <app-drawer id="drawer" slot="drawer" swipe-open on-opened-changed="_changed">
+     <side-menu page="{{page}}"></side-menu>
       </app-drawer>
-
+      
       <app-header-layout has-scrolling-region>
         <iron-pages
             selected="[[page]]"
@@ -54,6 +96,7 @@
           <my-balance name="balance"></my-balance>
           <my-send name="send"></my-send>
           <my-scan name="scan"></my-scan>
+          <my-contacts name="contacts"></my-contacts>
           <my-confirm name="confirm"></my-confirm>
           <my-delivered name="delivered"></my-delivered>
           <my-transactions name="transactions"></my-transactions>
@@ -64,7 +107,7 @@
   </template>
 
   <script>
-      class MyDapp extends Polymer.Element {
+    class MyDapp extends ReduxMixin(Polymer.Element) {
     
       static get is() { 
         return 'my-dapp'; 
@@ -72,11 +115,15 @@
 
       static get properties() {
         return {
+          confirmedPassword: {
+            type: String,
+            statePath: 'password'
+          },
           page: {
             type: String,
             reflectToAttribute: true,
             observer: '_pageChanged',
-          },
+          }
         };
       }
 
@@ -90,10 +137,20 @@
           return Object.assign({
             USER: function(user){
                 return { type: 'USER', user: user}
+            },
+            PASSWORD: function(password){
+                return { type: 'PASSWORD', password: password}
             }
         });
       }
 
+      _changed(e){
+        this.drawOpen = e.detail.value
+      }
+      _toggleDraw(){
+        console.log("fire")
+        this.$.drawer.toggle();
+      }
 
       _routePageChanged(page) {
         if (page === undefined) {
@@ -104,17 +161,13 @@
           this.$.drawer.close();
         }
       }
-
       _pageChanged(page) {
         var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         Polymer.importHref( resolvedPageUrl, null, this._showPage404.bind(this), true);
       }
-
       _showPage404() {
         this.page = 'view404';
-      }
-    }
-
-    window.customElements.define(MyDapp.is, MyDapp);
+      }    
+    }  window.customElements.define(MyDapp.is, MyDapp);
   </script>
 </dom-module>

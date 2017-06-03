@@ -12,23 +12,20 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-      }
-      .container{
-        @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-      }
-      .loading{
         @apply(--layout-vertical);
-        max-width: 414px;
       }
-      .container img{
-        width: 200px;
+      .login{
+        padding: 18px;
+        width: calc(100% -18px);
+        background-image: url('/assets/login.svg');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
       }
-      poly-eth-login{
-        max-width: 200px;
+      .password{
+        padding: 18px;
+        width: calc(100% -18px);
+      }
+      .password poly-eth-login{
         @apply(--login-join-inputs)
       }
       .restore, .restore img{
@@ -49,6 +46,7 @@
         cursor: pointer;
       }
 
+
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -58,24 +56,18 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <div class="restore" on-click="_restore">
-      <img src="/assets/icons/restore.svg">
+    <div class="title">Login</div>
+    <div class="login spacer"></div>
+    <div class="password">
+      <poly-eth-login
+        id="eth" 
+        confirmed-password={{confirmedPassword}}>
+      </poly-eth-login>
     </div>
-
-    <div class="container">
-        <div class="loading">
-            <img src="/assets/login.svg">
-            <poly-eth-login
-              id="login" 
-              confirmed-password={{confirmedPassword}}>
-            </poly-eth-login>
-        </div>
+    <div class="button" on-click="_login">Login</div> 
+    <div class="link" on-click="_restore">
+      <span>Restore</span> from backup passphrase.
     </div>
-
-    <div on-click="_show" class="show-qr">
-      <img src="/assets/icons/show-qr.svg">
-    </div>
-
   </template>
 
   <script>
@@ -88,7 +80,7 @@
           confirmedPassword: {
             type: String,
             observer: '_setPassword',
-          },
+          }
         };
       }
       static get actions() {
@@ -105,12 +97,11 @@
         if(!vault){
           this.set('route.path', 'join');
         }
-        console.log(this.subroute.path)
       }
     
       _setPassword(){
         this.dispatch('PASSWORD', this.confirmedPassword);
-        this.$.login.clear();
+        this.$.eth.clear();
         var passphrase = localStorage.getItem("passphrase")
         if(this.subroute.path == "/warning/"){
           this.set('route.path', '/warning/'); 
@@ -122,7 +113,9 @@
             }
         }
       }
-
+      _login(){
+        this.$.eth.login();
+      }
       _show(){
         this.set('route.path', 'address');
       }

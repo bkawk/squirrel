@@ -1,0 +1,161 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="side-menu">
+  <template>
+    <style include="shared-styles">
+        :host {
+            display: block;
+            padding: 0px;
+            height: 100vh;
+        }
+        .drawer{
+            height: 100vh;
+            background-color: #666666;
+            -webkit-box-shadow: 3px 3px 16px -1px rgba(0,0,0,0.4);
+            -moz-box-shadow: 3px 3px 16px -1px rgba(0,0,0,0.4);
+            box-shadow: 3px 3px 16px -1px rgba(0,0,0,0.4);
+        }
+        .drawer-list{
+            width:256px;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            @apply --layout-horizontal;
+            @apply --layout-wrap;
+            overflow: hidden;
+        }
+        .block{
+            width:127px;
+            height: calc(100vh / 5);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #666666;
+            border-bottom: 1px solid #534e4d;
+            border-right: 1px solid #534e4d;
+            cursor: pointer;  
+        }
+        .block .icon{
+            width: 120px;
+        }
+        .icon img{
+            width: 30px;
+            height: 30px;
+        }
+        .double { 
+            width:256px;
+        }
+        .block .title{
+            font-size: 11px;
+            padding: 0px;
+            color: #f6f6f7;
+            font-weight: 400;
+            text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.6);
+        }
+        .block.iron-selected {
+            background: var(--dark-grey-color)
+        }
+
+
+    </style>
+    <div class="drawer">
+    <app-location route="{{route}}"></app-location>
+    <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+        
+        <div class="block double" on-click="_balance" name="balance">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-ballance.svg"></div>
+            <div class="title">Ballance</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_address" name="address">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-address.svg"></div>
+            <div class="title">My Address</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_backup" name="backup">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-backup.svg"></div>
+            <div class="title">Contacts</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_send" name="send">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-send.svg"></div>
+            <div class="title">Send</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_transactions" name="transactions">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-transactions.svg"></div>
+            <div class="title">Transactions</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_backup" name="backup">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-backup.svg"></div>
+            <div class="title">Backup</div>
+          </div>
+        </div>
+
+        <div class="block" on-click="_backup" name="backup">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-backup.svg"></div>
+            <div class="title">Smart Contracts</div>
+          </div>
+        </div>
+
+        <div class="block double" on-click="_lock" name="exit">
+          <div>
+            <div class="icon"><img src="/assets/icons/nav-exit.svg"></div>
+            <div class="title">Lock</div>
+          </div>
+        </div>
+    </iron-selector>
+</div>
+  </template>
+
+  <script>
+    class SideMenu extends Polymer.Element {
+      static get is() { 
+        return 'side-menu'; 
+      }
+      static get properties() {
+        return {
+          confirmedPassword: {
+            type: String,
+          },
+        };
+      }
+
+    _balance(){
+        this.set('route.path', 'balance/'); 
+    }
+    _backup(){
+        this.set('route.path', 'warning/'); 
+    }
+    _send(){
+        this.set('route.path', 'send/'); 
+    }
+    _lock(){
+        if(this.confirmedPassword){
+            this.dispatch('PASSWORD', "");
+            this.open = false;
+        } else {
+            this.set('route.path', 'login'); 
+        }
+    }
+
+    }    window.customElements.define(SideMenu.is, SideMenu);
+  </script>
+</dom-module>

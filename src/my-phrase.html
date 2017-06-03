@@ -11,56 +11,26 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-      }
-      .container{
-        @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-      }
-      .qrcode{
         @apply(--layout-vertical);
-        width: 200px;
-        padding-bottom: 50px;
       }
-      .qrcode img{
-        margin: 0 auto;
-        padding-top: 20px;
-      }
+
       poly-eth-passphrase{
-        margin: 0 auto;
-        max-width: 200px;
-        text-align: center;
-        padding-bottom: 10px;
         @apply(--passphrase-text)
-      }
-      .button {
-        display: block;
-        width: 100%;
-        height: 70px;
-        text-align: center;
-        position: fixed;
-        bottom: 18px;
-        left:0px;
       }
     </style>
 
     <app-location route="{{route}}"></app-location>
-    <div class="container">
-      <div class="qrcode">
-        <poly-eth-passphrase 
-          confirmed-password="{{confirmedPassword}}"
-          qr-width="200"
-          qr-height="200"
-          dark-color="black">
-        </poly-eth-passphrase>
-      </div>
-      <a href="/balance/" class="button">
-        <img src="/assets/buttons/its-safe.svg">
-      </a>
 
-    </div>
+      <div class="title">Passphrase</div>
+      <div class="spacer"></div>
+      <poly-eth-passphrase 
+        confirmed-password="{{confirmedPassword}}"
+        qr-width="270"
+        qr-height="270"
+        dark-color="black">
+      </poly-eth-passphrase>
+      <div class="spacer"></div>
+      <div class="button" on-click="_safe">It's Safe</div> 
 
   </template>
 
@@ -90,6 +60,9 @@
         if(!this.confirmedPassword){
           this.set('route.path', 'login');
         }
+      }
+      _safe(){
+        this.set('route.path', 'balance');
       }
 
     } window.customElements.define(MyPhrase.is, MyPhrase);

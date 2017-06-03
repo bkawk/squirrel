@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/poly-eth/poly-eth-restore.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-route/app-route.html"><link rel="import" href="shared-styles.html">
 <link rel="import" href="my-redux.html">
 
 <dom-module id="my-restore">
@@ -11,51 +11,76 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
+        @apply(--layout-vertical);
       }
-      .container{
+      .passphrase{
+        padding: 18px;
+        min-height: 180px;
+        width: calc(100% -18px);
+      }
+      .passphrase poly-eth-restore{
+        @apply(--login-join-inputs)
+      }
+      .spacer{
+        width: calc(100% -18px);
+        margin: 18px;
         @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
       }
-
-      .back{
+      .scan{
+        padding: 18px 18px 28px 18px;
+        width: 100%;
+        font-size: 11px;
+        color: var(--white-color);
+        font-weight: 400;
+      }
+      .scan span{
+        cursor: pointer;
+        padding: 8px;
+        background-color: var(--light-grey-color);
+        color: var(--black-color);
+        margin-right: 10px;
+        font-weight: 300;
+      }
+      .close{
         display: block;
         position: fixed;
         top: 0px;
-        left: 0px;
+        right: 0px;
         padding: 18px;
-        width: 10px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         cursor: pointer;
       }
-      .back img{
-        height: 20px;
+      .close img{
+        height: 18px;
       }
-      .restore{
-        @apply(--layout-vertical);
-        width: 320px;
-        padding-bottom: 50px;
-      }
-      poly-eth-restore{
-        max-width: 200px;
-        @apply(--login-join-inputs)
+      .error{
+        margin: 18px;
+        color: var(--white-color)
       }
     </style>
 
     <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/restore/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
 
-    <a href="/login/" class="back">
-      <img src="../assets/icons/mini-back.svg">
-    </a>
-
-    <div class="container">
-      <div class="restore">
-        <poly-eth-restore
-          confirmed-password="{{confirmedPassword}}">
-        </poly-eth-restore >
-      </div>
+    <div class="title">Restore passphrase</div>
+    <div class="spacer"></div>
+    <template is="dom-if" if="{{error}}">
+      <div class="error">You did not allow access to the camera, please go to settings to allow this app to access the camera or manually enter the address below</div>
+    </template>
+    <div class="passphrase">
+      <poly-eth-restore
+        passphrase="{{scannedPhrase}}"
+        confirmed-password="{{confirmedPassword}}">
+      </poly-eth-restore >
+    </div>
+    <div class="button" on-click="_warning">Restore and Save</div> 
+    <div class="scan" on-click="_scan">
+      <span>Scan</span> QR code with passphrase
     </div>
 
   </template>
@@ -70,6 +95,17 @@
             type: String,
             observer: '_setPassword',
           },
+          routeData:{
+            type: Object,
+            observer: "_error"
+          },
+          error: {
+            type: Boolean,
+            value: false
+          },
+          scannedPhrase: {
+            type: String,
+          }
         };
       }
 
@@ -84,6 +120,19 @@
       _setPassword(){
         this.dispatch('PASSWORD', this.confirmedPassword);
         this.set('route.path', 'warning'); 
+      }
+      _scan(){
+        this.set('route.path', '/scan/restore/'); 
+      }
+      /**
+      * Set address or show error based on data from scan return
+      */
+      _error(){
+        if(this.routeData.page == 'error'){
+          this.error = true
+        } else {
+          this.scannedPhrase = this.routeData.page
+        }
       }
     
     } window.customElements.define(MyRestore.is, MyRestore);

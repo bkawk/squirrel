@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="my-scan">
+<dom-module id="my-contacts">
 <template>
     <style include="shared-styles">
     :host {
@@ -11,12 +11,12 @@
         height: 100vh;
     }
     </style>
-    <p>This page will never be seen, instead the user will see the native QR scanner</p>
+    <p>This page will never be seen, instead the user will see the native contacts picker</p>
 </template>
 
 <script>
-    class MyScan extends Polymer.Element {
-    static get is() { return 'my-scan'; }
+    class MyContacts extends Polymer.Element {
+    static get is() { return 'my-contacts'; }
 
     static get properties() {
         return {
@@ -24,6 +24,6 @@
         };
     }
 
-} window.customElements.define(MyScan.is, MyScan);
+} window.customElements.define(MyContacts.is, MyContacts);
 </script>
 </dom-module>

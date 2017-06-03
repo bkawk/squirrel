@@ -11,48 +11,29 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-      }
-      .container{
-        @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-      }
-      .join{
         @apply(--layout-vertical);
-        max-width: 414px;
       }
-      .container img{
-        width: 200px;
+      .password{
+        padding: 18px;
+        min-height: 180px;
+        width: calc(100% -18px);
       }
-      poly-eth-join{
-        max-width: 200px;
+      .password poly-eth-join{
         @apply(--login-join-inputs)
       }
-      .restore, .restore img{
-        width: 30px;
-        height: 30px;
-        position: fixed;
-        top: 0px;
-        right: 0px;
-        padding: 18px;
-        cursor: pointer;
-      }
     </style>
-
     <app-location route="{{route}}"></app-location>
-
-    <div class="restore" on-tap="_restore">
-      <img src="../assets/icons/restore.svg">
+    <div class="title">Create an account</div>
+    <div class="spacer"></div>
+    <div class="password">
+      <poly-eth-join
+        id="eth"
+        confirmed-password="{{confirmedPassword}}">
+      </poly-eth-join>
     </div>
-    <div class="container">
-        <div class="join">
-            <img src="../assets/login.svg">
-            <poly-eth-join
-              confirmed-password="{{confirmedPassword}}">
-            </poly-eth-join>
-        </div>
+    <div class="button" on-click="_save">Save Passphrase</div> 
+    <div class="link" on-click="_restore">
+      <span>Restore</span> an account from backup passphrase.
     </div>
 
   </template>
@@ -62,7 +43,6 @@
       static get is() { 
         return 'my-join'; 
       }
-
       static get properties() {
         return {
           confirmedPassword: {
@@ -78,22 +58,38 @@
             }
         });
       }
-
       connectedCallback(){
         super.connectedCallback();
-        var vault = localStorage.getItem("vault")
-        if(vault){
-          this.set('route.path', 'login');
+        this._login()
+      }
+      /**
+      * Update redux when passwords match
+      */
+      _setPassword(){
+        this.dispatch('PASSWORD', this.confirmedPassword);
+      }
+      /**
+      * On click redirect to warning 
+      */
+      _save(){
+        if(this.confirmedPassword){
+          this.$.eth.save();
+          this.set('route.path', 'warning'); 
         }
       }
-
+      /**
+      * On click redirect to restore
+      */
       _restore(){
         this.set('route.path', 'restore');
       }
-
-      _setPassword(){
-        this.dispatch('PASSWORD', this.confirmedPassword);
-        this.set('route.path', 'warning'); 
+      /**
+      * On load redirect to login if vault
+      */
+      _login(){
+        if(localStorage.getItem("vault")){
+          this.set('route.path', 'login');
+        }
       }
 
     }    window.customElements.define(MyJoin.is, MyJoin);

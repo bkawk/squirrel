@@ -7,19 +7,12 @@
   "dependencies": {
     "app-layout": "PolymerElements/app-layout#2.0-preview",
     "app-route": "PolymerElements/app-route#2.0-preview",
-    "app-localize-behavior": "2.0-preview",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#2.0-preview",
-    "iron-icon": "PolymerElements/iron-icon#2.0-preview",
-    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#2.0-preview",
-    "iron-localstorage": "PolymerElements/iron-localstorage#2.0-preview",
-    "iron-media-query": "PolymerElements/iron-media-query#2.0-preview",
     "iron-pages": "PolymerElements/iron-pages#2.0-preview",
     "polymer-redux": "polymer-2",
     "polymer": "Polymer/polymer#^2.0.0-rc.1",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.4",
     "paper-input": "2.0-preview",
-    "poly-eth": "https://github.com/bkawk/poly-eth.git",
-    "qrcode-scanner": "https://github.com/bkawk/qrcode-scanner.git"
+    "poly-eth": "https://github.com/bkawk/poly-eth.git"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.1"

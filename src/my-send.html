@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/poly-eth/poly-eth-send.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="my-redux.html">
@@ -10,57 +12,59 @@
         display: block;
         padding: 0px;
         height: 100vh;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
+        @apply(--layout-vertical);
       }
-      .container{
-        @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-      }
-      .back{
+
+      .close{
         display: block;
         position: fixed;
         top: 0px;
-        left: 0px;
+        right: 0px;
         padding: 18px;
-        width: 10px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         cursor: pointer;
       }
-      .back img{
-        height: 20px;
+      .close img{
+        height: 18px;
       }
-      .scan{
-        display: block;
-        position: fixed;
-        top: 0px;
-        right: 18px;
-        padding: 18px;
-        width: 19px;
-        height: 20px;
-        cursor: pointer;
-      }
-      .scan img{
-        height: 22px;
+      .error{
+        margin: 18px;
+        color: var(--white-color)
       }
       poly-eth-send{
-        max-width: 200px;
+        margin: 18px;
+        height: 150px;
         @apply(--login-join-inputs)
       }
     </style>
 
-    <a href="/balance/" class="back">
-      <img src="/assets/icons/mini-back.svg">
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/send/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <div class="title">Send</div>
+
+    <div class="spacer"></div>
+  <template is="dom-if" if="{{error}}">
+    <div class="error">You did not allow access to the camera, please go to settings to allow this app to access the camera or manually enter the address below</div>
+  </template>
+
+    <poly-eth-send
+      address="{{address}}"
+      amount="{{amount}}"
+      my-address="[[myAddress]]">
+    </poly-eth-send>
+
+    <div class="spacer"></div>
+    <div class="button" on-click="_send">Send Ether</div> 
+    <a href="squirrel://scan/send/" class="link">
+      <span>Scan</span> recipients QR code using the camera.
     </a>
 
-    <a href="/scan/send/" class="scan">
-      <img src="/assets/icons/mini-scan.svg">
-    </a>
-
-  <poly-eth-send
-    confirmed-password="{{confirmedPassword}}">
-  </poly-eth-send>
   </template>
 
   <script>
@@ -73,9 +77,44 @@
             type: String,
             statePath: 'password'
           },
+          routeData:{
+            type: Object,
+            observer: "_error"
+          },
+          error: {
+            type: Boolean,
+            value: false
+          },
+          scannedAddress: {
+            type: String,
+          }
         };
       }
-
+      ready(){
+        super.ready();
+        var vault = JSON.parse(localStorage.getItem("vault"))
+        this.myAddress = vault.ethAddress
+      }
+      /**
+      * On click redirect to scan
+      */
+      _scan(){
+        console.log('FIRED')
+        this.set('route.path', 'scan/send/');
+      }
+      /**
+      * Set address or show error based on data from scan return
+      */
+      _error(){
+        if(this.routeData.page == 'error'){
+          this.error = true
+        } else {
+          this.scannedAddress = this.routeData.page
+        }
+      }
+      _send(){
+        this.set('route.path', "confirm/"+this.address+"/"+this.amount+"/");
+      }
   } window.customElements.define(MySend.is, MySend);
   </script>
 </dom-module>
